@@ -10,7 +10,8 @@ import {
 import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Recipe } from './entities/recipe.entity';
 
 @Controller('recipes')
 @ApiTags('recipes')
@@ -23,6 +24,11 @@ export class RecipesController {
   }
 
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'Get all recipes',
+    type: [Recipe],
+  })
   findAll() {
     return this.recipesService.findAll();
   }

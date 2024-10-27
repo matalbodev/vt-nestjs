@@ -13,11 +13,11 @@ export class RecipesService {
     });
   }
 
-  async findAll() {
+  async findAll(): Promise<Recipe[] | []> {
     return this.prisma.recipe.findMany();
   }
 
-  findOne(id: string) {
+  async findOne(id: string): Promise<Recipe | null> {
     return this.prisma.recipe.findUnique({
       where: {
         id,
@@ -25,11 +25,11 @@ export class RecipesService {
     });
   }
 
-  update(id: string, updateRecipeDto: UpdateRecipeDto) {
+  async update(id: string, updateRecipeDto: UpdateRecipeDto) {
     return `This action updates a #${id} recipe`;
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     return `This action removes a #${id} recipe`;
   }
 }
