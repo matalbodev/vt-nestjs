@@ -15,8 +15,10 @@ Starting DB
 
 Starting nest
 
-`npm i`
-`npm run start:dev`
+`npm i` \
+`npm run start:dev` \
+
+You'll have access to http://localhost:3000/api
 
 ## First step
 
