@@ -5,7 +5,9 @@ services:
     env_file:
       - .env
     volumes:
-      - pgdata:/var/lib/postgresql/data 
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
  
   adminer:
     image: adminer
