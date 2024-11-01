@@ -4,11 +4,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateRecipeDto extends PartialType(CreateRecipeDto) {
   @ApiProperty()
-  id: string;
-  @ApiProperty()
   title: string;
   @ApiProperty()
   description: string;
-  @ApiProperty()
   updatedAt: Date;
 }
