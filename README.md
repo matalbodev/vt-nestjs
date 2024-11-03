@@ -7,7 +7,7 @@ We have Nest JS resource already created for the recipe, now we need to use some
 
 - Docker desktop (or any other docker client)
 
-## Boostrap project
+## Technical details
 
 Starting DB
 
@@ -16,10 +16,15 @@ Starting DB
 Starting nest
 
 `npm i` \
-`npm run start:dev` \
+`npm run start:dev`
 
 You'll have access to http://localhost:3000/api
 
-## First step
+Init DB with data
 
-Create ingredient resource
+`npm run prisma:migrate` \
+`npm run prisma:seed`
+
+Checking data with prisma
+
+`npm run prisma:studio`
