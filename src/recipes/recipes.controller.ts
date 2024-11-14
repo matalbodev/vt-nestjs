@@ -13,7 +13,7 @@ import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Recipe } from './entities/recipe.entity';
+import { RecipeEntity } from './entities/recipe.entity';
 
 @Controller('recipes')
 @ApiTags('recipes')
@@ -24,7 +24,7 @@ export class RecipesController {
   @ApiResponse({
     status: 201,
     description: 'Create a new recipe',
-    type: Recipe,
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 400,
@@ -42,7 +42,7 @@ export class RecipesController {
   @ApiResponse({
     status: 200,
     description: 'Get all recipes',
-    type: [Recipe],
+    type: [RecipeEntity],
   })
   @ApiResponse({
     status: 404,
@@ -60,7 +60,7 @@ export class RecipesController {
   @ApiResponse({
     status: 200,
     description: 'Get a single recipe',
-    type: Recipe,
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 404,
@@ -78,7 +78,7 @@ export class RecipesController {
   @ApiResponse({
     status: 200,
     description: 'Recipe updated',
-    type: Recipe,
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 400,
@@ -102,7 +102,7 @@ export class RecipesController {
   @ApiResponse({
     status: 200,
     description: 'Delete a recipe',
-    type: Recipe,
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 400,

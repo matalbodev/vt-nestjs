@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { Recipe } from './entities/recipe.entity';
+import { RecipeEntity } from './entities/recipe.entity';
+import { Recipe } from '@prisma/client';
 
 @Injectable()
 export class RecipesService {
@@ -16,7 +17,21 @@ export class RecipesService {
   }
 
   async findAll(): Promise<Recipe[] | []> {
-    const recipes = await this.prisma.recipe.findMany();
+    const recipes = await this.prisma.recipe.findMany({
+      include: {
+        ingredients: {
+          select: {
+            ingredientId: true,
+            ingredient: {
+              select: {
+                name: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
     if (!recipes) {
       return [];
@@ -42,7 +57,7 @@ export class RecipesService {
   async update(
     id: string,
     updateRecipeDto: UpdateRecipeDto,
-  ): Promise<Recipe | null> {
+  ): Promise<RecipeEntity | null> {
     const recipe = await this.findOne(id);
 
     if (!recipe) {
@@ -59,7 +74,7 @@ export class RecipesService {
     });
   }
 
-  async remove(id: string): Promise<Recipe | null> {
+  async remove(id: string): Promise<RecipeEntity | null> {
     const recipe = await this.findOne(id);
 
     if (!recipe) {

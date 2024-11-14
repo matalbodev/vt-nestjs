@@ -1,14 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { Recipe } from '@prisma/client';
+import { IngredientEntity } from 'src/ingredients/entities/ingredient.entity';
 
-export class Recipe {
-  @ApiProperty()
+export class RecipeEntity implements Recipe {
   id: string;
-  @ApiProperty()
   title: string;
-  @ApiProperty()
   description: string;
-  @ApiProperty()
+  ingredients?: IngredientEntity[];
   createdAt: Date;
-  @ApiProperty()
   updatedAt: Date;
 }
