@@ -1,11 +1,12 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateRecipeDto } from './create-recipe.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateRecipeDto } from './create-recipe.dto';
 
 export class UpdateRecipeDto extends PartialType(CreateRecipeDto) {
   @ApiProperty()
   title: string;
   @ApiProperty()
   description: string;
-  updatedAt: Date;
+  @ApiProperty()
+  ingredients: string[]; //id des ingrédients
 }

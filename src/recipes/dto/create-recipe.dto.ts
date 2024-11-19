@@ -6,5 +6,5 @@ export class CreateRecipeDto {
   @ApiProperty()
   description: string;
   @ApiProperty()
-  createdAt: Date;
+  ingredients: string[]; //id des ingrédients
 }

@@ -1,19 +1,20 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Res,
 } from '@nestjs/common';
-import { Response } from 'express';
-import { RecipesService } from './recipes.service';
-import { CreateRecipeDto } from './dto/create-recipe.dto';
-import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Recipe } from './entities/recipe.entity';
+import { Response } from 'express';
+import { CreateRecipeDto } from './dto/create-recipe.dto';
+import { UpdateRecipeIngredientsDto } from './dto/update-recipe-ingredients.dto';
+import { UpdateRecipeDto } from './dto/update-recipe.dto';
+import { RecipeEntity } from './entities/recipe.entity';
+import { RecipesService } from './recipes.service';
 
 @Controller('recipes')
 @ApiTags('recipes')
@@ -24,7 +25,7 @@ export class RecipesController {
   @ApiResponse({
     status: 201,
     description: 'Create a new recipe',
-    type: Recipe,
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 400,
@@ -42,7 +43,7 @@ export class RecipesController {
   @ApiResponse({
     status: 200,
     description: 'Get all recipes',
-    type: [Recipe],
+    type: [RecipeEntity],
   })
   @ApiResponse({
     status: 404,
@@ -56,11 +57,12 @@ export class RecipesController {
     return res.status(200).json(recipes);
   }
 
-  @Get(':id')
+  @Get(':id/lazy')
   @ApiResponse({
     status: 200,
-    description: 'Get a single recipe',
-    type: Recipe,
+    description:
+      'Get a single recipe using lazy loading (ie will not load ingredients)',
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 404,
@@ -78,7 +80,7 @@ export class RecipesController {
   @ApiResponse({
     status: 200,
     description: 'Recipe updated',
-    type: Recipe,
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 400,
@@ -102,7 +104,7 @@ export class RecipesController {
   @ApiResponse({
     status: 200,
     description: 'Delete a recipe',
-    type: Recipe,
+    type: RecipeEntity,
   })
   @ApiResponse({
     status: 400,
@@ -116,5 +118,57 @@ export class RecipesController {
     }
 
     return res.status(200).json(deletedRecipe);
+  }
+
+  @Patch(':id/ingredients')
+  @ApiResponse({
+    status: 200,
+    description:
+      'Update a recipe with provided data, if ingredients are provided, the old one will be deleted and only new ones will be saved',
+    type: RecipeEntity,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Recipe not updated',
+  })
+  async updateRecipeIngredients(
+    @Res() res: Response,
+    @Param('id') recipeId: string,
+    @Body() updateRecipeIngredienstDto: UpdateRecipeIngredientsDto,
+  ) {
+    const updateRecipeIngredients =
+      await this.recipesService.updateRecipeIngredients(
+        recipeId,
+        updateRecipeIngredienstDto,
+      );
+
+    if (!updateRecipeIngredients) {
+      return res
+        .status(400)
+        .json({ message: `invalid ingredient IDs provided` });
+    }
+
+    return res.status(200).json(updateRecipeIngredients);
+  }
+
+  @Get(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Get a single recipe with its ingredients',
+    type: RecipeEntity,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Recipe not ${id} found',
+  })
+  async getRecipeWithIngredients(
+    @Res() res: Response,
+    @Param('id') recipeId: string,
+  ) {
+    const recipe = await this.recipesService.getRecipeWithIngredients(recipeId);
+    if (!recipe) {
+      return res.status(404).json({ message: `Recipe ${recipeId} not found` });
+    }
+    return res.status(200).json(recipe);
   }
 }

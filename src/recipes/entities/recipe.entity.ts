@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Ingredient } from 'src/ingredient/entities/ingredient.entity';
 
-export class Recipe {
+export class RecipeEntity {
   @ApiProperty()
   id: string;
   @ApiProperty()
@@ -11,4 +12,6 @@ export class Recipe {
   createdAt: Date;
   @ApiProperty()
   updatedAt: Date;
+  @ApiProperty()
+  ingredients?: Ingredient[];
 }

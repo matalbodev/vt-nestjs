@@ -28,3 +28,9 @@ Init DB with data
 Checking data with prisma
 
 `npm run prisma:studio`
+
+### Notes Cedrick:
+```
+Au delà de la relation implicite, des endpoints et services ont été rajoutés à recipe pour demontrer l'utilisation de cette relation.
+ce qui a été fait n'est pas exhaustif, je reste ouvert à toute demande d'ajout.
+
